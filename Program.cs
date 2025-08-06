@@ -26,85 +26,111 @@
             #endregion
 
             #region part2 -Q2
-            AuthenticationService authenticationService = new AuthenticationService();
-            authenticationService.mainusers = new User[2]; 
-            authenticationService.mainusers[0] = new User
+            //AuthenticationService authenticationService = new AuthenticationService();
+            //authenticationService.mainusers = new User[2]; 
+            //authenticationService.mainusers[0] = new User
+            //{
+            //    Username = "Ahmed",
+            //    Password = "123456",
+            //    Roles = new string[] { "auditor", "admin" }
+            //};
+            //authenticationService.mainusers[1] = new User
+            //{
+            //    Username = "Khaled",
+            //    Password = "888888",
+            //    Roles = new string[] { "manager", "admin" }
+            //};
+            //Console.WriteLine("Enter details for User 1");
+            //Console.Write("Username: ");
+            //string username1 = Console.ReadLine();
+
+            //Console.Write("Password: ");
+            //string password1 = Console.ReadLine();
+
+            //List<string> roles=new List<string>();
+            //Console.Write("Enter User's role : ");
+            //roles.Add(Console.ReadLine());
+
+
+            //bool otherrole = false;
+            //do {
+            //    Console.Write("Have this user other role ? yes/no : ");
+            //    if (Console.ReadLine() == "yes")
+            //    {
+            //        otherrole = true;
+            //        Console.Write("Enter Other Role : ");
+            //        {
+            //            roles.Add(Console.ReadLine());
+
+            //        }
+            //    }
+            //    else { otherrole = false; }
+
+
+            //}
+            //while (otherrole);
+            //bool authenticated = false ; bool Authorized = false ;
+            //foreach (var us in authenticationService.mainusers)
+            //{
+            //    if (us.Username == username1 && us.Password == password1)
+            //    {
+            //        authenticated = true;
+
+            //            foreach (var role in roles) 
+            //            {
+            //            if (us.Roles.Contains(role.ToLower()))
+            //            {
+            //                Authorized = true;
+            //            }
+            //            else { Authorized = false; }
+
+            //            }
+
+            //    }
+
+            //}
+            //if (authenticated)
+            //{
+            //    if (Authorized) { Console.WriteLine("Existed User and Authorized with allgiven roles"); }
+            //    else
+            //    {
+            //        Console.WriteLine("Existed User but not Authorized with allgiven roles");
+            //    }
+            //}
+            //else { Console.WriteLine("Unexisted user"); }
+
+
+
+
+
+
+
+
+            #endregion
+
+            #region part3 -Q3
+            Console.Write(  "To who sends you this message :  ");
+            string reciepnt= Console.ReadLine();
+            Console.Write("what is the message :  ");
+            string message = Console.ReadLine();
+            Console.WriteLine("by wich medien (Email/SMS/PushNotification  :  ");
+            string medien = Console.ReadLine();
+            INotificationService notification;
+            switch (medien.ToLower())
             {
-                Username = "Ahmed",
-                Password = "123456",
-                Roles = new string[] { "auditor", "admin" }
-            };
-            authenticationService.mainusers[1] = new User
-            {
-                Username = "Khaled",
-                Password = "888888",
-                Roles = new string[] { "manager", "admin" }
-            };
-            Console.WriteLine("Enter details for User 1");
-            Console.Write("Username: ");
-            string username1 = Console.ReadLine();
-
-            Console.Write("Password: ");
-            string password1 = Console.ReadLine();
-
-            List<string> roles=new List<string>();
-            Console.Write("Enter User's role : ");
-            roles.Add(Console.ReadLine());
-           
-
-            bool otherrole = false;
-            do {
-                Console.Write("Have this user other role ? yes/no : ");
-                if (Console.ReadLine() == "yes")
-                {
-                    otherrole = true;
-                    Console.Write("Enter Other Role : ");
-                    {
-                        roles.Add(Console.ReadLine());
-
-                    }
-                }
-                else { otherrole = false; }
-
-
+                case "email" :
+                    notification = new EmailNotificationService();
+                    notification.SendNotification(reciepnt, message);
+                    break;
+                case "sms":
+                    notification = new SmsNotificationService();
+                    notification.SendNotification(reciepnt, message);
+                    break;
+                case "pushnotification":
+                    notification = new PushNotificationService();
+                    notification.SendNotification(reciepnt, message);
+                    break;
             }
-            while (otherrole);
-            bool authenticated = false ; bool Authorized = false ;
-            foreach (var us in authenticationService.mainusers)
-            {
-                if (us.Username == username1 && us.Password == password1)
-                {
-                    authenticated = true;
-                  
-                        foreach (var role in roles) 
-                        {
-                        if (us.Roles.Contains(role.ToLower()))
-                        {
-                            Authorized = true;
-                        }
-                        else { Authorized = false; }
-
-                        }
-                    
-                }
-                
-            }
-            if (authenticated)
-            {
-                if (Authorized) { Console.WriteLine("Existed User and Authorized with allgiven roles"); }
-                else
-                {
-                    Console.WriteLine("Existed User but not Authorized with allgiven roles");
-                }
-            }
-            else { Console.WriteLine("Unexisted user"); }
-            
-
-
-
-
-
-
 
             #endregion
 
@@ -175,6 +201,32 @@
                     }
                 }
                 return false;
+            }
+        }
+
+        interface INotificationService
+        {
+            public void SendNotification(string reciepnt, string message);
+        }
+        class EmailNotificationService : INotificationService
+        {
+            public void SendNotification(string reciepnt, string message)
+            {
+                Console.WriteLine($"Sending Email to {reciepnt}: {message}");
+            }
+        }
+        class SmsNotificationService : INotificationService
+        {
+            public void SendNotification(string reciepnt, string message)
+            {
+                Console.WriteLine($"Sending SMS to {reciepnt}: {message}");
+            }
+        }
+        class PushNotificationService : INotificationService
+        {
+            public void SendNotification(string reciepnt, string message)
+            {
+                Console.WriteLine($"Sending Push Notification to {reciepnt}: {message}");
             }
         }
     }
